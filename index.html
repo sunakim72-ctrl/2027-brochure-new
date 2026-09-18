@@ -225,6 +225,21 @@ button:disabled{opacity:.35;cursor:default}
   }
 }
 
+
+@media(max-width:760px){
+  body > #deptSub.mobile-floating{
+    display:block!important; position:fixed!important; z-index:2147483647!important;
+    background:#fff!important; border:1px solid #d7ded8!important; border-radius:10px!important;
+    padding:6px!important; box-shadow:0 10px 28px rgba(0,0,0,.24)!important;
+    max-height:55vh!important; overflow-y:auto!important;
+  }
+  body > #deptSub.mobile-floating button{
+    display:block!important; width:100%!important; padding:11px 12px!important;
+    border:0!important; background:#fff!important; text-align:left!important;
+    font-size:13px!important; box-shadow:none!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -309,34 +324,48 @@ function goPrev(){if(animating||index<=0)return;animating=true;index=isMobile()?
 prev.addEventListener('click',goPrev);next.addEventListener('click',goNext);
 
 const deptBtn=document.getElementById('deptBtn'),deptSub=document.getElementById('deptSub');
+const deptHome=deptSub.parentElement;
+
+function positionDeptSub(){
+  if(!isMobile()) return;
+  const r=deptBtn.getBoundingClientRect();
+  const panelW=Math.min(230,window.innerWidth-24);
+  const left=Math.max(12,Math.min(r.left,window.innerWidth-panelW-12));
+  deptSub.style.left=left+'px';
+  deptSub.style.top=(r.bottom+6)+'px';
+  deptSub.style.width=panelW+'px';
+}
+function closeDeptSub(){
+  deptSub.classList.remove('open','mobile-floating');
+  deptBtn.textContent='학과소개 ▼';
+  if(deptSub.parentElement===document.body) deptHome.appendChild(deptSub);
+  deptSub.removeAttribute('style');
+}
 deptBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  const willOpen=!deptSub.classList.contains('open');
-  deptSub.classList.toggle('open',willOpen);
-  deptBtn.textContent=willOpen?'학과소개 ▲':'학과소개 ▼';
-  if(willOpen && isMobile()){
-    const r=deptBtn.getBoundingClientRect();
-    const panelW=Math.min(230,window.innerWidth-24);
-    let left=Math.max(12,Math.min(r.left,window.innerWidth-panelW-12));
-    deptSub.style.left=left+'px';
-    deptSub.style.top=(r.bottom+6)+'px';
-    deptSub.style.width=panelW+'px';
+  if(deptSub.classList.contains('open')){ closeDeptSub(); return; }
+  if(isMobile()){
+    document.body.appendChild(deptSub);
+    deptSub.classList.add('mobile-floating');
   }
+  deptSub.classList.add('open');
+  deptBtn.textContent='학과소개 ▲';
+  positionDeptSub();
 });
-document.addEventListener('click',e=>{if(!e.target.closest('.dept-menu')){deptSub.classList.remove('open');deptBtn.textContent='학과소개 ▼'}});
+deptSub.addEventListener('click',e=>e.stopPropagation());
+document.addEventListener('click',closeDeptSub);
 window.addEventListener('resize',()=>{
-  if(deptSub.classList.contains('open') && isMobile()){
-    const r=deptBtn.getBoundingClientRect();
-    const panelW=Math.min(230,window.innerWidth-24);
-    let left=Math.max(12,Math.min(r.left,window.innerWidth-panelW-12));
-    deptSub.style.left=left+'px';
-    deptSub.style.top=(r.bottom+6)+'px';
-    deptSub.style.width=panelW+'px';
+  if(deptSub.classList.contains('open')){
+    if(isMobile()){
+      if(deptSub.parentElement!==document.body) document.body.appendChild(deptSub);
+      deptSub.classList.add('mobile-floating');
+      positionDeptSub();
+    }else closeDeptSub();
   }
 });
 document.querySelectorAll('[data-goto]').forEach(btn=>btn.addEventListener('click',()=>{
   index=Number(btn.dataset.goto);render();
-  deptSub.classList.remove('open');deptBtn.textContent='학과소개 ▼';
+  closeDeptSub();
 }));
 
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goNext();if(e.key==='ArrowLeft')goPrev()});
