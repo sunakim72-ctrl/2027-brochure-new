@@ -180,55 +180,48 @@ button:disabled{opacity:.35;cursor:default}
 }
 
 
-/* v10 mobile fixes: department submenu visibility + remove page top/bottom white bands */
+/* v11 mobile precise fixes */
 @media(max-width:760px){
-  /* Keep the department dropdown above all viewer elements and inside viewport */
-  .section-menu,
-  .dept-menu{
-    overflow:visible!important;
+  /* Do not force a paper aspect ratio on mobile: show the JPG at its natural ratio */
+  .spread .page,.cover .page{
+    width:min(94vw,620px)!important;
+    height:auto!important;
+    aspect-ratio:auto!important;
+    flex:0 0 auto!important;
   }
-  .dept-menu{
-    position:static!important;
+  .page img{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    object-fit:fill!important;
+    margin:0!important;
+    padding:0!important;
   }
+
+  /* Department submenu is a floating panel positioned by JS under the button */
   .dept-sub{
     position:fixed!important;
-    left:12px!important;
-    right:12px!important;
-    top:210px!important;
-    width:auto!important;
+    top:0;
+    left:0;
+    right:auto!important;
+    min-width:210px!important;
+    width:230px!important;
+    max-width:calc(100vw - 24px)!important;
     max-height:55vh!important;
     overflow-y:auto!important;
-    z-index:99999!important;
+    z-index:999999!important;
     background:#fff!important;
     border:1px solid #d7ded8!important;
     border-radius:10px!important;
     padding:6px!important;
-    box-shadow:0 12px 28px rgba(0,0,0,.22)!important;
+    box-shadow:0 10px 26px rgba(0,0,0,.22)!important;
   }
-  .dept-sub.open{display:block!important}
   .dept-sub button{
-    display:block!important;
     width:100%!important;
     padding:10px 12px!important;
     text-align:left!important;
     font-size:13px!important;
-  }
-
-  /* Mobile brochure page: remove viewer-created white bands around the image */
-  .viewer,
-  .spread,
-  .page,
-  .page-wrap{
-    padding-top:0!important;
-    padding-bottom:0!important;
-  }
-  .page img,
-  .page-wrap img,
-  .spread img{
-    display:block!important;
-    margin-top:0!important;
-    margin-bottom:0!important;
-    vertical-align:top!important;
   }
 }
 
@@ -316,8 +309,31 @@ function goPrev(){if(animating||index<=0)return;animating=true;index=isMobile()?
 prev.addEventListener('click',goPrev);next.addEventListener('click',goNext);
 
 const deptBtn=document.getElementById('deptBtn'),deptSub=document.getElementById('deptSub');
-deptBtn.addEventListener('click',e=>{e.stopPropagation();const open=deptSub.classList.toggle('open');deptBtn.textContent=open?'학과소개 ▲':'학과소개 ▼'});
+deptBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  const willOpen=!deptSub.classList.contains('open');
+  deptSub.classList.toggle('open',willOpen);
+  deptBtn.textContent=willOpen?'학과소개 ▲':'학과소개 ▼';
+  if(willOpen && isMobile()){
+    const r=deptBtn.getBoundingClientRect();
+    const panelW=Math.min(230,window.innerWidth-24);
+    let left=Math.max(12,Math.min(r.left,window.innerWidth-panelW-12));
+    deptSub.style.left=left+'px';
+    deptSub.style.top=(r.bottom+6)+'px';
+    deptSub.style.width=panelW+'px';
+  }
+});
 document.addEventListener('click',e=>{if(!e.target.closest('.dept-menu')){deptSub.classList.remove('open');deptBtn.textContent='학과소개 ▼'}});
+window.addEventListener('resize',()=>{
+  if(deptSub.classList.contains('open') && isMobile()){
+    const r=deptBtn.getBoundingClientRect();
+    const panelW=Math.min(230,window.innerWidth-24);
+    let left=Math.max(12,Math.min(r.left,window.innerWidth-panelW-12));
+    deptSub.style.left=left+'px';
+    deptSub.style.top=(r.bottom+6)+'px';
+    deptSub.style.width=panelW+'px';
+  }
+});
 document.querySelectorAll('[data-goto]').forEach(btn=>btn.addEventListener('click',()=>{
   index=Number(btn.dataset.goto);render();
   deptSub.classList.remove('open');deptBtn.textContent='학과소개 ▼';
