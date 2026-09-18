@@ -179,6 +179,59 @@ button:disabled{opacity:.35;cursor:default}
   }
 }
 
+
+/* v10 mobile fixes: department submenu visibility + remove page top/bottom white bands */
+@media(max-width:760px){
+  /* Keep the department dropdown above all viewer elements and inside viewport */
+  .section-menu,
+  .dept-menu{
+    overflow:visible!important;
+  }
+  .dept-menu{
+    position:static!important;
+  }
+  .dept-sub{
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    top:210px!important;
+    width:auto!important;
+    max-height:55vh!important;
+    overflow-y:auto!important;
+    z-index:99999!important;
+    background:#fff!important;
+    border:1px solid #d7ded8!important;
+    border-radius:10px!important;
+    padding:6px!important;
+    box-shadow:0 12px 28px rgba(0,0,0,.22)!important;
+  }
+  .dept-sub.open{display:block!important}
+  .dept-sub button{
+    display:block!important;
+    width:100%!important;
+    padding:10px 12px!important;
+    text-align:left!important;
+    font-size:13px!important;
+  }
+
+  /* Mobile brochure page: remove viewer-created white bands around the image */
+  .viewer,
+  .spread,
+  .page,
+  .page-wrap{
+    padding-top:0!important;
+    padding-bottom:0!important;
+  }
+  .page img,
+  .page-wrap img,
+  .spread img{
+    display:block!important;
+    margin-top:0!important;
+    margin-bottom:0!important;
+    vertical-align:top!important;
+  }
+}
+
 </style>
 </head>
 <body>
