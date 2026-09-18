@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes,viewport-fit=cover">
-<title>2027학년도 신입생 입학전형요항 | 안산디자인문화고등학교</title>
+<title>2027학년도 입학 안내 | 안산디자인문화고등학교</title>
 <style>
 :root{--green:#254d35;--green2:#183726;--ink:#222;--shadow:0 16px 42px rgba(20,33,25,.20)}
 *{box-sizing:border-box}
@@ -41,8 +41,16 @@ button:disabled{opacity:.35;cursor:default}
 .hint{text-align:center;margin:14px 0 0;color:#5b675f;font-size:13px}.mobile-note{display:none}
 .mobile-zoom-controls{display:none}
 .progress{height:5px;border-radius:999px;background:#d5ddd7;overflow:hidden;max-width:720px;margin:16px auto 0}.progress>span{display:block;height:100%;background:var(--green);width:0;transition:width .25s ease}
+
+    .section-menu{display:flex;justify-content:center;align-items:flex-start;gap:8px;flex-wrap:wrap;margin:0 0 16px;position:relative;z-index:20}
+    .section-menu button{white-space:nowrap}
+    .dept-menu{position:relative}
+    .dept-sub{display:none;position:absolute;left:0;top:44px;min-width:178px;background:#fff;border:1px solid #d7ded8;border-radius:10px;padding:6px;box-shadow:0 10px 24px rgba(0,0,0,.15);z-index:30}
+    .dept-sub.open{display:block}
+    .dept-sub button{display:block;width:100%;text-align:left;box-shadow:none;border:0}
+
 @media(max-width:760px){
-  .wrap{padding:0 0 16px}.hero{border-radius:0;padding:18px 14px}.viewer{border-radius:0;padding:14px 8px 16px;box-shadow:none}
+  .section-menu{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:0 2px}.section-menu::-webkit-scrollbar{display:none}.dept-sub{position:fixed;left:12px;right:12px;top:auto;min-width:0}.wrap{padding:0 0 16px}.hero{border-radius:0;padding:18px 14px}.viewer{border-radius:0;padding:14px 8px 16px;box-shadow:none}
   .hero .eyebrow{font-size:12px}.hero h1{font-size:clamp(18px,5.2vw,26px);line-height:1.28;word-break:keep-all;white-space:nowrap;letter-spacing:-.03em}.hero p{font-size:12px;line-height:1.55;word-break:keep-all}
   .toolbar{gap:8px;margin-bottom:14px}.toolbar button{padding:10px 12px;font-size:14px}.counter{min-width:86px;font-size:14px}
   .download-group{width:100%;justify-content:center;margin:6px 6px 0}.download.important{flex:1 1 100%;text-align:center;padding:13px 10px;font-size:14px}
@@ -59,18 +67,37 @@ button:disabled{opacity:.35;cursor:default}
 <div class="wrap">
   <section class="hero">
     <div class="eyebrow">안산디자인문화고등학교</div>
-    <h1>2027학년도 신입생 입학전형요항</h1>
-    <p>좌우 버튼 또는 화면 스와이프로 페이지를 넘겨 확인할 수 있습니다.</p>
+    <h1>2027학년도 입학 안내</h1>
+    <p>좌우 버튼 또는 화면 스와이프로 브로슈어를 넘겨 확인할 수 있습니다.</p>
   </section>
   <section class="viewer" id="viewer">
+
+    <div class="section-menu">
+      <button type="button" data-goto="0">처음</button>
+      <div class="dept-menu">
+        <button type="button" id="deptBtn">학과소개 ▼</button>
+        <div class="dept-sub" id="deptSub">
+          <button type="button" data-goto="3">미디어콘텐츠과</button>
+          <button type="button" data-goto="5">스마트경영과</button>
+          <button type="button" data-goto="7">공연콘텐츠과</button>
+          <button type="button" data-goto="9">시각디자인과</button>
+          <button type="button" data-goto="11">패션디자인과</button>
+        </div>
+      </div>
+      <button type="button" data-goto="13">진학·취업</button>
+      <button type="button" data-goto="17">도제학교</button>
+      <button type="button" data-goto="19">특색사업</button>
+      <button type="button" data-goto="21">입학요항</button>
+      <button type="button" data-goto="27">디문고 더보기</button>
+    </div>
+
     <div class="toolbar">
       <button id="prev" aria-label="이전 페이지">◀ 이전</button>
-      <span class="counter" id="counter">1 / 16</span>
+      <span class="counter" id="counter">1 / 32</span>
       <button id="next" class="primary" aria-label="다음 페이지">다음 ▶</button>
       <button id="zoom" title="새 창에서 현재 페이지 크게 보기">🔍 크게 보기</button>
       <div class="download-group">
-        <a class="download important pdf-btn" href="admission-guide-2027.pdf" download="2027학년도_신입생_입학전형요항_안산디자인문화고.pdf">📄 입학전형요항 PDF 다운로드</a>
-        <a class="download important form-btn" href="submission-forms-2027.hwp" download="2027학년도_신입생_입학전형_제출양식모음_안산디자인문화고.hwp">📝 제출양식 다운로드</a>
+        <a class="download important pdf-btn" href="brochure.pdf" download="2027학년도_입학안내_안산디자인문화고.pdf">📄 입학안내 PDF 다운로드</a>
       </div>
     </div>
     <div class="book-shell" id="shell"><div class="book cover" id="book" aria-live="polite"></div></div>
@@ -86,7 +113,7 @@ button:disabled{opacity:.35;cursor:default}
   </section>
 </div>
 <script>
-const pages=Array.from({length:16},(_,i)=>`page-${String(i+1).padStart(2,'0')}.jpg`);
+const pages=Array.from({length:32},(_,i)=>`page-${String(i+1).padStart(2,'0')}.jpg`);
 pages.forEach(src=>{const im=new Image();im.src=src;});
 const book=document.getElementById('book'),prev=document.getElementById('prev'),next=document.getElementById('next'),counter=document.getElementById('counter'),bar=document.getElementById('bar');
 let index=0,animating=false,swiped=false,sx=0,pinching=false;
@@ -109,13 +136,22 @@ function labelFor(ids){return ids.length===1?`${ids[0]+1} / ${pages.length}`:`${
 function render(dir){
   if(isMobile())resetMobileZoom();
   const ids=spreadFor(index);book.className='book '+(ids.length===1?'cover':'spread');book.innerHTML='';
-  ids.forEach((id,k)=>{const p=document.createElement('div');p.className='page '+(ids.length===1?'right':(k===0?'left':'right'));const img=document.createElement('img');img.src=pages[id];img.alt=`입학전형요항 ${id+1}페이지`;img.draggable=false;p.appendChild(img);book.appendChild(p)});
+  ids.forEach((id,k)=>{const p=document.createElement('div');p.className='page '+(ids.length===1?'right':(k===0?'left':'right'));const img=document.createElement('img');img.src=pages[id];img.alt=`입학안내 ${id+1}페이지`;img.draggable=false;p.appendChild(img);book.appendChild(p)});
   if(dir){book.classList.add(dir==='next'?'turn-next':'turn-prev');setTimeout(()=>book.classList.remove('turn-next','turn-prev'),470)}
   counter.textContent=labelFor(ids);prev.disabled=index===0;next.disabled=index>=pages.length-1;bar.style.width=((ids[ids.length-1]+1)/pages.length*100)+'%';
 }
 function goNext(){if(animating||index>=pages.length-1)return;animating=true;index=isMobile()?index+1:(index===0?1:Math.min(index+2,pages.length-1));render('next');setTimeout(()=>animating=false,480)}
 function goPrev(){if(animating||index<=0)return;animating=true;index=isMobile()?index-1:(index<=1?0:Math.max(1,index-2));render('prev');setTimeout(()=>animating=false,480)}
 prev.addEventListener('click',goPrev);next.addEventListener('click',goNext);
+
+const deptBtn=document.getElementById('deptBtn'),deptSub=document.getElementById('deptSub');
+deptBtn.addEventListener('click',e=>{e.stopPropagation();const open=deptSub.classList.toggle('open');deptBtn.textContent=open?'학과소개 ▲':'학과소개 ▼'});
+document.addEventListener('click',e=>{if(!e.target.closest('.dept-menu')){deptSub.classList.remove('open');deptBtn.textContent='학과소개 ▼'}});
+document.querySelectorAll('[data-goto]').forEach(btn=>btn.addEventListener('click',()=>{
+  index=Number(btn.dataset.goto);render();
+  deptSub.classList.remove('open');deptBtn.textContent='학과소개 ▼';
+}));
+
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')goNext();if(e.key==='ArrowLeft')goPrev()});
 const shell=document.getElementById('shell');
 shell.addEventListener('touchstart',e=>{
@@ -176,7 +212,7 @@ document.getElementById('zoom').addEventListener('click',()=>{
   const pageUrls=pages.map(src=>new URL(src,location.href).href);
   const w=window.open('','_blank');
   if(!w){alert('팝업이 차단되어 있습니다. 팝업을 허용한 뒤 다시 시도해 주세요.');return;}
-  const title='2027학년도 신입생 입학전형요항 크게 보기';
+  const title='2027학년도 입학 안내 크게 보기';
   const initial=index;
   w.document.write(`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes,viewport-fit=cover"><title>${title}</title><style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#222;color:#fff;font-family:"Pretendard","Noto Sans KR","Malgun Gothic",Arial,sans-serif}body{padding:16px;overflow:auto}.zoom-wrap{position:relative;min-height:calc(100vh - 32px);display:flex;align-items:center;justify-content:center;touch-action:pan-y pinch-zoom;user-select:none}.spread{display:flex;align-items:stretch;justify-content:center;max-width:1500px;width:100%}.zoom-page{position:relative;background:#fff;box-shadow:0 12px 34px rgba(0,0,0,.35);overflow:hidden;cursor:pointer;flex:0 1 50%;max-width:50%}.zoom-page img{display:block;width:100%;height:auto;max-height:calc(100vh - 32px);object-fit:contain}.zoom-left{border-radius:10px 0 0 10px}.zoom-right{border-radius:0 10px 10px 0}.single .zoom-page{flex:0 1 auto;max-width:min(900px,96vw);border-radius:10px}.single .zoom-page img{max-height:calc(100vh - 32px)}.counter{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(0,0,0,.68);padding:8px 13px;border-radius:999px;font-weight:800;font-size:14px;backdrop-filter:blur(6px);pointer-events:none}.navhint{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(0,0,0,.58);padding:7px 12px;border-radius:999px;font-size:12px;white-space:nowrap;pointer-events:none;opacity:.86}.edge{position:fixed;top:0;bottom:0;width:18%;z-index:8;cursor:pointer}.edge.prev{left:0}.edge.next{right:0}@media(max-width:760px){body{padding:8px}.zoom-wrap{min-height:calc(100vh - 16px);display:block}.spread,.single{display:block;width:100%}.spread .zoom-page,.single .zoom-page{max-width:96vw;width:96vw;margin:0 auto;border-radius:10px}.spread .zoom-page.left{display:none}.zoom-page img,.single .zoom-page img{width:100%;height:auto;max-height:none}.navhint{font-size:11px;bottom:8px}.counter{top:8px}}
@@ -185,7 +221,7 @@ const pages=${JSON.stringify(pageUrls)};let index=${initial};
 const wrap=document.getElementById('wrap'),counter=document.getElementById('counter');
 const mobile=()=>matchMedia('(max-width:760px)').matches;
 function idsFor(i){if(mobile())return[i];if(i===0)return[0];const left=i%2===1?i:i-1;return[left,left+1].filter(x=>x<pages.length)}
-function render(){const ids=idsFor(index);wrap.innerHTML='';const holder=document.createElement('div');holder.className=ids.length===1?'single':'spread';ids.forEach((id,k)=>{const p=document.createElement('div');p.className='zoom-page '+(ids.length===2?(k===0?'zoom-left left':'zoom-right right'):'');const img=document.createElement('img');img.src=pages[id];img.alt='입학전형요항 '+(id+1)+'페이지';img.draggable=false;p.appendChild(img);p.addEventListener('click',e=>{e.stopPropagation();if(mobile()||ids.length===1){const r=p.getBoundingClientRect();e.clientX<r.left+r.width/2?goPrev():goNext()}else{k===0?goPrev():goNext()}});holder.appendChild(p)});wrap.appendChild(holder);counter.textContent=ids.length===1?(ids[0]+1)+' / '+pages.length:(ids[0]+1)+'-'+(ids[ids.length-1]+1)+' / '+pages.length}
+function render(){const ids=idsFor(index);wrap.innerHTML='';const holder=document.createElement('div');holder.className=ids.length===1?'single':'spread';ids.forEach((id,k)=>{const p=document.createElement('div');p.className='zoom-page '+(ids.length===2?(k===0?'zoom-left left':'zoom-right right'):'');const img=document.createElement('img');img.src=pages[id];img.alt='입학안내 '+(id+1)+'페이지';img.draggable=false;p.appendChild(img);p.addEventListener('click',e=>{e.stopPropagation();if(mobile()||ids.length===1){const r=p.getBoundingClientRect();e.clientX<r.left+r.width/2?goPrev():goNext()}else{k===0?goPrev():goNext()}});holder.appendChild(p)});wrap.appendChild(holder);counter.textContent=ids.length===1?(ids[0]+1)+' / '+pages.length:(ids[0]+1)+'-'+(ids[ids.length-1]+1)+' / '+pages.length}
 function goNext(){if(index>=pages.length-1)return;index=mobile()?index+1:(index===0?1:Math.min(index+2,pages.length-1));render()}
 function goPrev(){if(index<=0)return;index=mobile()?index-1:(index<=1?0:Math.max(1,index-2));render()}
 document.getElementById('edgePrev').addEventListener('click',goPrev);document.getElementById('edgeNext').addEventListener('click',goNext);
